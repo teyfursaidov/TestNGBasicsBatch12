@@ -1,0 +1,267 @@
+            Class 01 TestNG     05/08/2022
+
+TestNG is not a language. It is a testing tool that helps us structure
+        test cases using different annotations.
+Benefits of TestNG:
+1.	Reports
+2.	Annotations e.g., @Test, @before, @beforeclass
+3.	Parallel testing
+4.	Batch execution
+5.	Assertions
+6.	Data Parameterization
+
+    It can be integrated with cucumber, maven and selenium.
+
+1.	Annotations:
+    We do not need any main method
+    Annotation is a tag that provides additional information about class, interface,
+            or method in TestNG.
+    Annotations are used to keep the structure of test cases.
+@Test
+@BeforeMethod
+@AfterMethod
+@BeforeClass
+@AfterClass
+
+@Test:
+    You should write your test cases under this annotation.
+    This is the main annotation in TestNG.
+    By default, TestNG executes the methods in alphabetical order.
+
+@BeforeMethod:
+    Runs every time before the @Test is executed.
+    Also called precondition.
+
+@AfterMethod:
+    Runs after each @Test method.
+    Also called post-condition.
+
+    Before method is precondition that must run before every test
+        case and the post condition will run after the case has ended
+
+
+Priority:
+    By default, the priority is zero of all the test case
+    In order to give them a priority order use @Test(priority = 1)
+
+
+Enable&Disable:
+    @Test(enabled=false) -- will not run the test cases that are set 'false'
+    By default, all test cases are set to enabled=true.
+
+DependsOn:
+    @Test(dependsOnMethods="methodName") -- Will only run if the dependent method
+        has passed successfully else it will be skipped.
+
+HardAssertions:
+    We have hardAssertions in TestNG
+    In order to use the assertion we use
+        1. Assert.assertionType();
+            It passes if String1 equals String2
+            If fails if String does not equals to String2
+        2. Assert.AssertTrue(boolean variable);
+            Check the state of a boolean variable
+            It passes if the boolean is True
+            It fails if the boolean is False
+
+In hard assertion if we have multiple assertions as soon as one of them fails
+    checking other assertions and declared the test case has failed.
+
+SoftAssertions:
+    Soft Assertion continue to check all the assertions regardless of the fact
+        even if one or more assertions have failed,
+            which is not the scenario in case of Hard Assertions
+                (they stop execution when even one assertion fails).
+    In order to use soft assertion
+       1. Declaration
+         SoftAssert soft = new SoftAsssert();
+       2. soft.AssertEquals(string, string) instead of
+       Assert.AssertEquals(string, string)
+            At the end you must do:
+       3. soft.Assertall();
+
+
+After the declaration when you use soft.assert it just checks the assetion but
+        does not take any action or display any output.
+    Once tall the assertions are done then you use soft.AssertAll()
+    to compile the result of all the assertion and show you the results on screen.
+
+
+How to create a GIT repo:
+    1. Navigate to the location where your project is.
+    2. Decide where to create the repo.
+    3. Initialize the repo using gitinit
+    4. git add .
+    5. git commit -m "message"
+
+    Remote repo
+    Warnings:
+        One local repo must have only one remote repo.
+
+        1. git remote -v (check if the connection is there or not)
+        2. git remote add origin URL
+        3. git branch -M main
+
+        For a new repo
+            All these above steps you only need to do once and never again.
+1. navigate to working directory inside terminal
+2. run “git init”
+3. use “git status” to check the status of the git processes
+4. “git add . ” to add files/folders to staging area
+5. “git commit -m “commit desc” ” to commit
+6. “git log” to check logs of commits
+7. “git remote -v” to check if connected to a remote repo or not
+8. “git remote add origin url” to add local repo to remote origin
+9. check if connected by step 7
+10. “git push -u origin main” to change to main branch
+11. “git push -u origin main” to push the committed codes to GitHub
+12. “git status” to check if anything is left
+
+=============================================================================
+
+    Class 02 TestNG 05/11/2022
+
+testNG XML:
+    Gives you control over the execution of your whole project.
+
+<suite>
+    <test>
+        <package>
+            <classes>
+                <class>
+                    <method>
+                    </method>
+                </class>
+            </classes>
+        </package>
+    </test>
+</suite>
+
+@BeforeClass:
+    This annotation is used to execute the method only once
+        before the execution of the class.
+
+@AfterClass:
+    This annotation is used to execute the method only once
+            after the execution of the class.
+
+@BeforeTest:
+    This annotation is used to execute the method only once before
+        execution of the test.
+
+@AfterTest:
+    This annotation is used to execute the method only once after
+            execution of the test.
+
+Whenever we run by groups:
+    The @BeforeMethod and @AfterMethod do not run.
+        They are not under tag groups.
+
+When we run by method name:
+    @BeforeMethod and @AfterMethod runs
+
+=====================================================================
+
+    Class 03 TestNG 05/12/2022
+
+TestNG XML?
+    Help us to control the execution of the test cases.
+
+1. <suite>
+
+        <test>
+
+            <classes>
+
+                <class name="class name"/>
+                <class name="class 1">
+
+                        <methods>
+
+                            <include name="test1"/>
+
+                        </methods>
+
+                   </class>
+
+            </classes>
+
+            <packages>
+                <package name="package name"/>
+            </packages>
+
+        </test>
+
+   </suite>
+
+
+@BeforeMethod
+public void method1(){
+
+}
+@AfterMethod
+public void method2(){
+
+}
+@Test
+public void test1(){
+
+}
+
+When we run a specific method from a class, if it has any before and after
+    method they will also be executed even if we do not select them to run.
+
+
+Executing our test cases on group level.
+    1. When we execute in our XML using groups, by default the @BeforeMethod
+        and @AfterMethod WILL NOT EXECUTE!!!
+    Only the methods tagged under that particular group will be executed.
+
+
+In order to deal with this problem, because if we have any @BeforeMethod where
+    we are doing some initializations we use the following:
+        put(alwaysrun="true") in front of your @BeforeMethod and @AfterMethod.
+
+Whenever you are running by groups and you get an error of NULL pointer Exception
+    the first thing to check is:
+        "@BeforeMethod is set to alwaysRUN=true"
+
+----------------------------
+
+Listeners:
+    Listener class listen to events like test failed/pass/skipped.
+    Once the testcase has executed, and it either fails/pass/skips
+    depending upon the status listeners class takes you to the execution
+    of the code that you have written for the scenarios. If your test case fails,
+    pass or skip.
+
+Implementation of Listeners class:
+    Listeners class implements ITestListeners which is an interface from Test
+        ,and we override the functions according to our need.
+    After that you need to link the listeners class to the class on which you
+        want it to listen that can be done using TextNG.XML
+    You define your <listeners> tag just under <suite> and then write down
+        the classes you want it to listen to.
+
+
+
+DataProvider in TestNG:
+    Data provider is used for data driven testing.
+    Use data provider for small data sets and for greater one use excel.
+    If we want to declare our data set, it must be under @DataProvider.
+    If we want our test case to utilize this data provider
+        @test(dataprovider = "name of dataprovider")
+        public void test(){
+        }
+
+
+Parallel Testing:
+
+
+==================================================================
+        Review Class TestNG
+
+TestNG:
+
+
+
